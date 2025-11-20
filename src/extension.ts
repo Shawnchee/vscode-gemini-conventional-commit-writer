@@ -1,26 +1,49 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
+import { GitUtils } from './utils/git';
+import { GeminiGeneratorService } from './services/gemini';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+const API_KEY_SECRET = 'geminiApiKey';
+
 export function activate(context: vscode.ExtensionContext) {
+	const gitUtils = new GitUtils();
+	const geminiService = new GeminiGeneratorService();
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "vscode-gemini-commit-writer" is now active!');
+	// Set API Key command
+	const setApiKey = vscode.commands.registerCommand('vscode-gemini-commit-writer.setApiKey', async () => {
+		const apiKey = await vscode.window.showInputBox({
+			prompt: 'Enter your Gemini API Key',
+			password: true,
+			ignoreFocusOut: true
+		});
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('vscode-gemini-commit-writer.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from vscode-gemini-commit-writer!');
+		if (apiKey) {
+			await context.secrets.store(API_KEY_SECRET, apiKey);
+			vscode.window.showInformationMessage('Gemini API Key saved successfully.');
+		}
 	});
 
-	context.subscriptions.push(disposable);
-}
+	// Generate commit message command
+	const generateCommitMessage = vscode.commands.registerCommand('vscode-gemini-commit-writer.generateCommitMessage', async () => {
+		try {
+			// Get API Key
+			const apiKey = await context.secrets.get(API_KEY_SECRET);
+			if (!apiKey) {
+            	const result = await vscode.window.showErrorMessage(
+                    'Gemini API key not found',
+                    'Set API Key'
+                );
+				if (result === 'Set API Key') {
+				vscode.commands.executeCommand('vscode-gemini-commit-writer.setApiKey');
+			}
+				return;
+		}
+		geminiService.setApiKey(apiKey);
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+		// TODO: Show loading
+
+	} catch (error: any) {
+		vscode.window.showErrorMessage(`Error: ${error}`);
+	}
+
+})
+}
