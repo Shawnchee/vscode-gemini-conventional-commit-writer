@@ -1,4 +1,4 @@
-# Gemini Conventional Commit Writer
+# Gemini Modular Conventional Commit Writer
 
 AI-powered conventional commit messages using Google Gemini (because it's free! 🎉)
 
