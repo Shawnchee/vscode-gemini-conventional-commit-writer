@@ -43,6 +43,12 @@
         "title": "Clear API Key",
         "category": "Gemini Commit",
         "icon": "$(trash)"
+      },
+      {
+        "command": "vscode-gemini-commit-writer.openSettings",
+        "title": "Open Settings",
+        "category": "Gemini Commit",
+        "icon": "$(settings-gear)"
       }
     ],
     "menus": {
@@ -51,6 +57,22 @@
           "command": "vscode-gemini-commit-writer.generateCommitMessage",
           "group": "navigation@1",
           "when": "scmProvider == git"
+        },
+        {
+          "submenu": "gemini-commit-writer.menu",
+          "group": "navigation@2",
+          "when": "scmProvider == git"
+        }
+      ],
+      "gemini-commit-writer.menu": [
+        {
+          "command": "vscode-gemini-commit-writer.setApiKey"
+        },
+        {
+          "command": "vscode-gemini-commit-writer.clearApiKey"
+        },
+        {
+          "command": "vscode-gemini-commit-writer.openSettings"
         }
       ],
       "commandPalette": [
@@ -58,15 +80,15 @@
           "command": "vscode-gemini-commit-writer.generateCommitMessage",
           "when": "scmProvider == git"
         }
-      ],
-      "view/title": [
-        {
-          "command": "vscode-gemini-commit-writer.generateCommitMessage",
-          "when": "view == workbench.scm",
-          "group": "navigation"
-        }
       ]
     },
+    "submenus": [
+      {
+        "id": "gemini-commit-writer.menu",
+        "label": "Gemini Commit Settings",
+        "icon": "$(settings-gear)"
+      }
+    ],
     "keybindings": [
       {
         "command": "vscode-gemini-commit-writer.generateCommitMessage",
@@ -78,27 +100,57 @@
     "configuration": {
       "title": "Gemini Commit Writer",
       "properties": {
-        "geminiCommitWriter.maxDiffLength": {
-          "type": "number",
-          "default": 8000,
-          "description": "Maximum length of git diff to send to AI (in characters)"
-        },
-        "geminiCommitWriter.temperature": {
-          "type": "number",
-          "default": 0.3,
-          "minimum": 0,
-          "maximum": 1,
-          "description": "AI creativity level (0 = consistent, 1 = creative)"
-        },
         "geminiCommitWriter.model": {
           "type": "string",
           "default": "gemini-2.5-flash",
           "enum": [
-            "gemini-2.0-flash-exp",
-            "gemini-1.5-flash",
-            "gemini-1.5-pro"
+            "gemini-2.5-pro",
+            "gemini-2.5-flash",
+            "gemini-2.5-flash-lite",
+            "gemini-2.0-flash",
+            "gemini-2.0-flash-lite"
           ],
-          "description": "Gemini model to use"
+          "enumDescriptions": [
+            "🚀 Pro - State-of-the-art model excelling at coding and complex reasoning",
+            "⚡ Flash (Recommended) - Hybrid reasoning model with 1M token context window",
+            "💡 Flash Lite - Smallest and most cost-effective for at-scale usage",
+            "🔷 2.0 Flash - Balanced multimodal model with 1M token context, great for agents",
+            "💾 2.0 Flash Lite - Most efficient and cost-effective for high-volume usage"
+          ],
+          "markdownDescription": "**Select Gemini AI Model**\n\nAll models are available on the **free tier**.\n\n[Learn more about Gemini models](https://ai.google.dev/models/gemini)",
+          "order": 1
+        },
+        "geminiCommitWriter.temperature": {
+          "type": "number",
+          "default": 0.1,
+          "minimum": 0,
+          "maximum": 1,
+          "markdownDescription": "**AI Creativity Level**\n\nControl how creative the AI responses are:\n- `0.0` = Consistent, predictable\n- `0.3` = Balanced (recommended)\n- `1.0` = Creative, varied",
+          "order": 2
+        },
+        "geminiCommitWriter.maxOutputTokens": {
+          "type": "number",
+          "default": 100,
+          "minimum": 50,
+          "maximum": 500,
+          "multipleOf": 10,
+          "markdownDescription": "**Maximum Commit Message Length**\n\nLimit the length of generated messages in tokens.\n\n**Recommendation:** `100` tokens ≈ 75 words",
+          "order": 3
+        },
+        "geminiCommitWriter.maxDiffLength": {
+          "type": "number",
+          "default": 8000,
+          "minimum": 1000,
+          "maximum": 20000,
+          "multipleOf": 1000,
+          "markdownDescription": "**Maximum Git Diff Size**\n\nMaximum git diff size to analyze (in characters).\n\n⚠️ **Note:** Larger values may slow down generation.",
+          "order": 4
+        },
+        "geminiCommitWriter.showTimingInfo": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "**Show Performance Metrics**\n\nDisplay detailed timing information after generating commit messages.\n\nUseful for performance debugging.",
+          "order": 5
         }
       }
     }
@@ -122,6 +174,7 @@
     "typescript-eslint": "^8.46.3"
   },
   "dependencies": {
+    "@google/genai": "^1.30.0",
     "@google/generative-ai": "^0.24.1"
   },
   "repository": {
