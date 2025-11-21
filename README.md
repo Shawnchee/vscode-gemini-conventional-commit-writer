@@ -1,71 +1,164 @@
-# vscode-gemini-commit-writer README
+# Gemini Conventional Commit Writer
 
-This is the README for your extension "vscode-gemini-commit-writer". After writing up a brief description, we recommend including the following sections.
+AI-powered conventional commit messages using Google Gemini (because it's free! 🎉)
 
-## Features
+Generate professional, conventional commit messages with a single click using Google's Gemini AI models.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## ✨ Features
 
-For example if there is an image subfolder under your extension project workspace:
+- 🤖 **AI-Powered Commit Messages**: Generate conventional commits based on your staged changes
+- 💰 **100% Free**: Uses Google Gemini's free tier (no credit card required!)
+- ⚡ **Multiple Models**: Choose from Gemini 2.5 Flash, Flash Lite, 2.0 Flash, or 2.0 Flash Lite
+- 🎯 **Conventional Commits**: Follows the [Conventional Commits](https://www.conventionalcommits.org/) specification
+- 🔒 **Secure**: API keys stored securely in VS Code's Secret Storage
+- ⌨️ **Keyboard Shortcut**: `Ctrl+Alt+G` (Windows/Linux) or `Cmd+Alt+G` (Mac)
+- 🎨 **Git Integration**: Seamlessly integrates with VS Code's Source Control UI
 
-\!\[feature X\]\(images/feature-x.png\)
+## 🚀 Getting Started
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+### 1. Install the Extension
 
-## Requirements
+Search for "Gemini Commit Writer" in VS Code Extensions marketplace or [install from here](https://marketplace.visualstudio.com/items?itemName=shawnchee.vscode-gemini-commit-writer).
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+### 2. Get a Free Gemini API Key
 
-## Extension Settings
+1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Click "Get API Key" (no credit card required!)
+3. Copy your API key
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+### 3. Set Your API Key
 
-For example:
+**Option 1:** Via Command Palette
+- Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
+- Search for "Gemini Commit: Set API Key"
+- Paste your API key
 
-This extension contributes the following settings:
+**Option 2:** Via Source Control UI
+- Open the Source Control view
+- Click the gear icon (⚙️) in the SCM title bar
+- Select "Set API Key"
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+### 4. Generate Your First Commit
 
-## Known Issues
+1. Stage your changes in Git
+2. Click the sparkle icon (✨) in the Source Control title bar
+3. Or use keyboard shortcut: `Ctrl+Alt+G` / `Cmd+Alt+G`
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## 🎮 Usage
 
-## Release Notes
+### Generate Commit Message
 
-Users appreciate release notes as you update your extension.
+**Three ways to generate:**
 
-### 1.0.0
+1. **Button**: Click the sparkle icon (✨) in Source Control toolbar
+2. **Keyboard**: Press `Ctrl+Alt+G` (Windows/Linux) or `Cmd+Alt+G` (Mac)
+3. **Command Palette**: Run "Gemini Commit: Generate Commit Message"
 
-Initial release of ...
+### Manage Settings
 
-### 1.0.1
+Click the gear icon (⚙️) in Source Control toolbar to access:
+- **Set API Key**: Add or update your Gemini API key
+- **Clear API Key**: Remove stored API key
+- **Open Settings**: Configure extension preferences
 
-Fixed issue #.
+## ⚙️ Configuration
 
-### 1.1.0
+Access settings via `File > Preferences > Settings > Extensions > Gemini Commit Writer` or click the gear icon in Source Control.
 
-Added features X, Y, and Z.
+### Available Settings
+
+| Setting | Default | Description |
+|---------|---------|-------------|
+| **Model** | `gemini-2.5-flash` | Choose your Gemini model (all free!) |
+| **Temperature** | `0.1` | Control creativity (0.0 = consistent, 1.0 = creative) |
+| **Max Output Tokens** | `500` | Maximum commit message length (~375 words) |
+| **Max Diff Length** | `5000` | Maximum git diff size to analyze (characters) |
+| **Show Timing Info** | `false` | Display performance metrics after generation |
+
+### Model Comparison
+
+| Model | Best For | Speed | Quality |
+|-------|----------|-------|---------|
+| **gemini-2.5-flash** ⚡ | Recommended for most users | Fast | High |
+| **gemini-2.5-flash-lite** 💡 | High-volume usage | Fastest | Good |
+| **gemini-2.0-flash** 🔷 | Complex changes | Fast | High |
+| **gemini-2.0-flash-lite** 💾 | Cost-effective | Fastest | Good |
+
+All models are available on Google's **free tier**!
+
+## 📝 Conventional Commits Format
+
+Generated messages follow this format:
+
+```
+<type>(<scope>): <description>
+```
+
+**Types:**
+- `feat`: New feature
+- `fix`: Bug fix
+- `docs`: Documentation changes
+- `style`: Code style changes (formatting, etc.)
+- `refactor`: Code refactoring
+- `perf`: Performance improvements
+- `test`: Adding or updating tests
+- `build`: Build system changes
+- `ci`: CI/CD changes
+- `chore`: Maintenance tasks
+
+**Examples:**
+```
+feat(auth): add google oauth integration
+fix(api): resolve null pointer exception in user service
+docs(readme): update installation instructions
+refactor(utils): simplify date formatting logic
+```
+
+## 🔧 Troubleshooting
+
+### "No staged changes found"
+**Solution:** Stage your changes first using `git add` or the Source Control UI.
+
+### "Gemini API key not found"
+**Solution:** Set your API key via the gear icon (⚙️) in Source Control or Command Palette.
+
+### "Rate limit exceeded"
+**Solution:** Google's free tier has usage limits. Wait a few minutes and try again. Consider:
+- Using a lighter model (`gemini-2.5-flash-lite`)
+- Reducing `maxDiffLength` in settings
+- Waiting between requests
+
+### "Empty response from AI model"
+**Solution:** 
+- Increase `maxOutputTokens` in settings (try 500-1000)
+- Your diff might be too large, reduce `maxDiffLength`
+- Try a different model
+
+### API Key Security
+Your API key is stored securely using VS Code's Secret Storage API. It's never exposed in settings files or source control.
+
+## 🤝 Contributing
+
+Found a bug or have a feature request? 
+
+- **Report Issues**: [GitHub Issues](https://github.com/Shawnchee/vscode-gemini-commit-writer/issues)
+- **Source Code**: [GitHub Repository](https://github.com/Shawnchee/vscode-gemini-commit-writer)
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built with [Google Gemini API](https://ai.google.dev/)
+- Follows [Conventional Commits](https://www.conventionalcommits.org/) specification
+- Inspired by the developer community's need for better commit messages
 
 ---
 
-## Following extension guidelines
+**Enjoy writing better commits with AI!** ⭐
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+If you find this extension helpful, please consider:
+- ⭐ [Starring the repository](https://github.com/Shawnchee/vscode-gemini-commit-writer)
+- 📝 [Writing a review](https://marketplace.visualstudio.com/items?itemName=shawnchee.vscode-gemini-commit-writer&ssr=false#review-details)
+- 🐛 [Reporting bugs](https://github.com/Shawnchee/vscode-gemini-commit-writer/issues)
