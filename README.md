@@ -2,7 +2,7 @@
 
 AI-powered conventional commit messages using Google Gemini (because it's free! 🎉)
 
-Generate professional, conventional commit messages with a single click using Google's Gemini AI models.
+Generate professional, conventional commit messages with a single click using Google's Gemini AI models (Useful for interns)
 
 ## ✨ Features
 
@@ -18,7 +18,7 @@ Generate professional, conventional commit messages with a single click using Go
 
 ### 1. Install the Extension
 
-Search for "Gemini Commit Writer" in VS Code Extensions marketplace or [install from here](https://marketplace.visualstudio.com/items?itemName=shawnchee.vscode-gemini-commit-writer).
+Search for "Gemini Conventional Commit Writer" in VS Code Extensions marketplace or [install from here](https://marketplace.visualstudio.com/items?itemName=shawnchee.vscode-gemini-commit-writer).
 
 ### 2. Get a Free Gemini API Key
 
