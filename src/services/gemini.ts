@@ -58,7 +58,11 @@ export class GeminiGeneratorService {
                 config: {
                     temperature: temperature,
                     maxOutputTokens: maxOutputTokens,  
+                    thinkingConfig: {
+                        thinkingBudget: 0,
+                    }
                 }
+                
                 
             });
             const response = await result.text;

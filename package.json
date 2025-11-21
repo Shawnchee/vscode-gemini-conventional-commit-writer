@@ -104,14 +104,12 @@
           "type": "string",
           "default": "gemini-2.5-flash",
           "enum": [
-            "gemini-2.5-pro",
             "gemini-2.5-flash",
             "gemini-2.5-flash-lite",
             "gemini-2.0-flash",
             "gemini-2.0-flash-lite"
           ],
           "enumDescriptions": [
-            "🚀 Pro - State-of-the-art model excelling at coding and complex reasoning",
             "⚡ Flash (Recommended) - Hybrid reasoning model with 1M token context window",
             "💡 Flash Lite - Smallest and most cost-effective for at-scale usage",
             "🔷 2.0 Flash - Balanced multimodal model with 1M token context, great for agents",
@@ -130,16 +128,16 @@
         },
         "geminiCommitWriter.maxOutputTokens": {
           "type": "number",
-          "default": 100,
-          "minimum": 50,
-          "maximum": 500,
+          "default": 500,
+          "minimum": 100,
+          "maximum": 2000,
           "multipleOf": 10,
-          "markdownDescription": "**Maximum Commit Message Length**\n\nLimit the length of generated messages in tokens.\n\n**Recommendation:** `100` tokens ≈ 75 words",
+          "markdownDescription": "**Maximum Commit Message Length**\n\nLimit the length of generated messages in tokens.\n\n**Recommendation:** `500` tokens ≈ 375 words",
           "order": 3
         },
         "geminiCommitWriter.maxDiffLength": {
           "type": "number",
-          "default": 8000,
+          "default": 5000,
           "minimum": 1000,
           "maximum": 20000,
           "multipleOf": 1000,
@@ -174,8 +172,7 @@
     "typescript-eslint": "^8.46.3"
   },
   "dependencies": {
-    "@google/genai": "^1.30.0",
-    "@google/generative-ai": "^0.24.1"
+    "@google/genai": "^1.30.0"
   },
   "repository": {
     "type": "git",
