@@ -22,6 +22,20 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 	});
 
+	// Clear API Key Command
+	    const clearApiKey = vscode.commands.registerCommand('vscode-gemini-commit-writer.clearApiKey', async () => {
+        const result = await vscode.window.showWarningMessage(
+            'Are you sure you want to clear your Gemini API Key?',
+            'Yes',
+            'No'
+        );
+
+        if (result === 'Yes') {
+            await context.secrets.delete(API_KEY_SECRET);
+            vscode.window.showInformationMessage('✓ Gemini API Key cleared.');
+        }
+    });
+
 	// Generate commit message command
 	const generateCommitMessage = vscode.commands.registerCommand('vscode-gemini-commit-writer.generateCommitMessage', async () => {
 		try {
@@ -33,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
                     'Set API Key'
                 );
 				if (result === 'Set API Key') {
-				vscode.commands.executeCommand('vscode-gemini-commit-writer.setApiKey');
+				await vscode.commands.executeCommand('vscode-gemini-commit-writer.setApiKey');
 			}
 				return;
 		}
@@ -47,19 +61,10 @@ export function activate(context: vscode.ExtensionContext) {
 		}, async () => {
 			// Get staged changes
 			const gitDiff = await gitUtils.getStagedChanges();
-			console.log('[DEBUG] Staged Changes Diff:', gitDiff);
 			
-			// Also show in output channel for easier viewing
-            const outputChannel = vscode.window.createOutputChannel('Gemini Commit Writer');
-            outputChannel.appendLine('=== GIT DIFF DEBUG ===');
-            outputChannel.appendLine(`Type: ${typeof gitDiff}`);
-            outputChannel.appendLine(`Length: ${gitDiff?.length}`);
-            outputChannel.appendLine(`Content:\n${gitDiff}`);
-            outputChannel.appendLine('=== END DEBUG ===');
-            outputChannel.show();
-		
-			if (!gitDiff) {
+			if (!gitDiff || (Array.isArray(gitDiff) && gitDiff.length === 0)) {
 				vscode.window.showWarningMessage('No staged changes found.');
+				return;
 			}
 
 			// Generate commit message
@@ -76,7 +81,7 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 });
-	context.subscriptions.push(setApiKey, generateCommitMessage);
+	context.subscriptions.push(setApiKey, clearApiKey, generateCommitMessage);
 }
 
 export function deactivate() {}
