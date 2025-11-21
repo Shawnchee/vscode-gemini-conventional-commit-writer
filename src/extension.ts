@@ -40,10 +40,43 @@ export function activate(context: vscode.ExtensionContext) {
 		geminiService.setApiKey(apiKey);
 
 		// TODO: Show loading
+		await vscode.window.withProgress({
+			location: vscode.ProgressLocation.Notification,
+			title: "Generating commit message...",
+			cancellable: false
+		}, async () => {
+			// Get staged changes
+			const gitDiff = await gitUtils.getStagedChanges();
+			console.log('[DEBUG] Staged Changes Diff:', gitDiff);
+			
+			// Also show in output channel for easier viewing
+            const outputChannel = vscode.window.createOutputChannel('Gemini Commit Writer');
+            outputChannel.appendLine('=== GIT DIFF DEBUG ===');
+            outputChannel.appendLine(`Type: ${typeof gitDiff}`);
+            outputChannel.appendLine(`Length: ${gitDiff?.length}`);
+            outputChannel.appendLine(`Content:\n${gitDiff}`);
+            outputChannel.appendLine('=== END DEBUG ===');
+            outputChannel.show();
+		
+			if (!gitDiff) {
+				vscode.window.showWarningMessage('No staged changes found.');
+			}
+
+			// Generate commit message
+			const commitMessage = await geminiService.generateCommitMessage(gitDiff);
+
+			// Set commit message in Git input box
+			await gitUtils.setGitCommitMessage(commitMessage);
+
+			vscode.window.showInformationMessage('Commit message generated successfully.');
+		});
 
 	} catch (error: any) {
 		vscode.window.showErrorMessage(`Error: ${error}`);
 	}
 
-})
+});
+	context.subscriptions.push(setApiKey, generateCommitMessage);
 }
+
+export function deactivate() {}
