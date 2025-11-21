@@ -16,8 +16,8 @@ export class GeminiGeneratorService {
         const config = vscode.workspace.getConfiguration('geminiCommitWriter');
         const modelName = config.get<string>('model', 'gemini-2.5-flash');
         const temperature = config.get<number>('temperature', 0.1);
-        const maxOutputTokens = config.get<number>('maxOutputTokens', 100);
-        const maxDiffLength = config.get<number>('maxDiffLength', 8000);
+        const maxOutputTokens = config.get<number>('maxOutputTokens', 300);
+        const maxDiffLength = config.get<number>('maxDiffLength', 5000);
         
         const truncatedDiff = diff.length > maxDiffLength 
             ? diff.substring(0, maxDiffLength) + '\n... (truncated)' 
@@ -62,8 +62,7 @@ export class GeminiGeneratorService {
                 
             });
             const response = await result.text;
-            console.log("Model used:", modelName);
-            console.log("AI Response:", response);
+
             if (!response) {
                 throw new Error('Empty response from AI model');
             }
