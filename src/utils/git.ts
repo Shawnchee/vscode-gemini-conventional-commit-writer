@@ -1,11 +1,10 @@
-import * as vscode from 'vscode'
+import * as vscode from 'vscode';
 
 export class GitUtils {
     private gitAPI: any = null;
 
-    // Cache Git API to avoid repeated lookups
     private async getGitAPI() {
-        if (this.gitAPI){
+        if (this.gitAPI) {
             return this.gitAPI;
         }
 
@@ -32,40 +31,33 @@ export class GitUtils {
             return '';
         }
 
-        // Get the actual diff for each staged file
-        let fullDiff = '';
-        for (const change of indexChanges) {
-            const uri = change.uri;
-            const diff = await repo.diffIndexWithHEAD(uri.fsPath);
-            fullDiff += `\nFile: ${change.uri.fsPath}\n`;
-            fullDiff += `Status: ${this.getChangeStatus(change.status)}\n`;
-            fullDiff += diff + '\n';
-        }
+        // Parallelize diff fetching for speed
+        const diffPromises = indexChanges.map(async (change: any) => {
+            const diff = await repo.diffIndexWithHEAD(change.uri.fsPath);
+            return `\nFile: ${change.uri.fsPath}\nStatus: ${this.getChangeStatus(change.status)}\n${diff}\n`;
+        });
 
-        return fullDiff;
+        const diffs = await Promise.all(diffPromises);
+        return diffs.join('');
     }
-    
 
     private getChangeStatus(status: number): string {
         const statusMap: { [key: number]: string } = {
-            0: 'INDEX_MODIFIED',
-            1: 'INDEX_ADDED',
-            2: 'INDEX_DELETED',
-            3: 'INDEX_RENAMED',
-            4: 'INDEX_COPIED',
+            0: 'MODIFIED',
+            1: 'ADDED',
+            2: 'DELETED',
+            3: 'RENAMED',
             5: 'MODIFIED',
             6: 'DELETED',
             7: 'UNTRACKED',
-            8: 'IGNORED',
-            9: 'INTENT_TO_ADD'
         };
-        return statusMap[status] || 'UNKNOWN';
+        return statusMap[status] || 'CHANGED';
     }
 
     async setGitCommitMessage(message: string): Promise<void> {
         const git = await this.getGitAPI();
-
         const repo = git.repositories[0];
+        
         if (repo) {
             repo.inputBox.value = message;
         }
