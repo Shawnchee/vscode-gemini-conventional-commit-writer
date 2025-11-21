@@ -1,6 +1,6 @@
 {
   "name": "vscode-gemini-commit-writer",
-  "displayName": "Gemini Commit Writer",
+  "displayName": "Gemini Conventional Commit Writer",
   "description": "AI-powered conventional commit messages using Google Gemini (cuz it's free)",
   "version": "0.0.1",
   "publisher": "shawnchee",
