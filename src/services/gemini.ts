@@ -17,31 +17,41 @@ export class GeminiGeneratorService {
         const modelName = config.get<string>('model', 'gemini-2.5-flash');
         const temperature = config.get<number>('temperature', 0.1);
         const maxOutputTokens = config.get<number>('maxOutputTokens', 300);
-        const maxDiffLength = config.get<number>('maxDiffLength', 5000);
+        const maxDiffLength = config.get<number>('maxDiffLength', 8000);
         
         const truncatedDiff = diff.length > maxDiffLength 
             ? diff.substring(0, maxDiffLength) + '\n... (truncated)' 
             : diff;
 
         const prompt = 
-            `Generate a conventional commit message for the following git diff.
-            Use the format: <type>(<scope>): <description>
+            `Generate a conventional commit message for this git diff.
 
-            Your response must contain ONLY the commit message text, with no preamble, explanation, or markdown formatting (e.g., no code block)
+            REQUIRED FORMAT: <type>(<scope>): <description>
 
-            Conventional Commit Rules:
-            - Single line only (Based on Max Output Tokens)
-            - Lowercase description
-            - No period at end
-            - Be specific based on the changes
-            Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore
+            RULES:
+            - Single line only, no body or footers
+            - Lowercase description, no period at end
+            - Be specific and concise based on actual changes
 
-            ### Git Diff:
+            TYPES:
+            - feat: New feature
+            - fix: Bug fix
+            - docs: Documentation only
+            - style: Code formatting (no logic change)
+            - refactor: Code restructuring (no behavior change)
+            - perf: Performance improvement
+            - test: Add/update tests
+            - build: Build system/dependencies
+            - ci: CI/CD configuration
+            - chore: Maintenance tasks
+
+            SCOPE: Optional, describes affected area (e.g., api, auth, parser)
+            GIT DIFF:
             ---
             ${truncatedDiff}
             ---
 
-            Make sure the commit message is solely based on the Git Diff changes only.
+            Generate ONLY the commit message, nothing else.
             `;
 
         try {
