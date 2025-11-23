@@ -2,6 +2,11 @@
 
 All notable changes to the "Gemini Conventional Commit Writer" extension will be documented in this file.
 
+## [0.0.4] - 2025-11-23
+
+### Fix
+- Fixed minor bugs
+
 ## [0.0.3] - 2025-11-23
 
 ### Fix
