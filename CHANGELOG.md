@@ -2,17 +2,22 @@
 
 All notable changes to the "Gemini Conventional Commit Writer" extension will be documented in this file.
 
-## [0.0.4] - 2025-11-23
+## [1.0.5] - 2025-11-23
+
+### Added
+- Support for Cursor IDE, Antigravity and other IDE using Open VSX Registry
+
+## [1.0.4] - 2025-11-23
 
 ### Fix
 - Fixed minor bugs
 
-## [0.0.3] - 2025-11-23
+## [1.0.3] - 2025-11-23
 
 ### Fix
 - Fixed minor bugs
 
-## [0.0.2] - 2025-11-23
+## [1.0.2] - 2025-11-23
 
 ### Improved
 - Optimized AI prompt for better accuracy and conciseness
@@ -22,7 +27,7 @@ All notable changes to the "Gemini Conventional Commit Writer" extension will be
 ### Added
 - Published to Open VSX Registry (now available for Cursor IDE users)
 
-## [0.0.1] - 2025-11-21
+## [1.0.1] - 2025-11-21
 - Initial release
 - Generate conventional commit messages using Gemini AI
 - Configurable model, temperature, and output length
