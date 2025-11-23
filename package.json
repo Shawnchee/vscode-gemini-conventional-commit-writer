@@ -2,7 +2,7 @@
   "name": "vscode-gemini-commit-writer",
   "displayName": "Gemini Conventional Commit Writer",
   "description": "AI-powered conventional commit messages using Google Gemini (cuz it's free)",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "shawnchee",
   "icon": "icon.png",
   "engines": {
@@ -137,7 +137,7 @@
         },
         "geminiCommitWriter.maxDiffLength": {
           "type": "number",
-          "default": 5000,
+          "default": 8000,
           "minimum": 1000,
           "maximum": 20000,
           "multipleOf": 1000,
