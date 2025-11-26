@@ -25,3 +25,4 @@ node_modules/**/.github/**
 project_overview.md
 .vscode-test.mjs
 eslint.config.mjs
+.env
