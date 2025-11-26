@@ -22,7 +22,11 @@ Professional commit messages with a single click using Google's Gemini AI models
 
 ### 1. Install the Extension
 
+**VS Code:**
 Search for "Gemini Conventional Commit Writer" in VS Code Extensions marketplace or [install from here](https://marketplace.visualstudio.com/items?itemName=shawnchee.vscode-gemini-commit-writer).
+
+**Cursor IDE:**
+Also available on [Open VSX Registry](https://open-vsx.org/extension/shawnchee/vscode-gemini-commit-writer) for Cursor, Antigravity, and VSCodium users.
 
 ### 2. Get a Free Gemini API Key
 
