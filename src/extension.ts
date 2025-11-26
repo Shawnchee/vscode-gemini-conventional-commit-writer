@@ -65,9 +65,34 @@ export function activate(context: vscode.ExtensionContext) {
             
             geminiService.setApiKey(apiKey);
 
+            // Ask user for type of commit
+            const commitType = await vscode.window.showQuickPick([
+                                {
+                    label: 'Brief Commit',
+                    description: 'Single-line conventional commit',
+                    detail: 'e.g., feat(auth): add google oauth integration',
+                    value: 'brief'
+                },
+                {
+                    label: 'Detailed Commit',
+                    description: 'Multi-line with body and footer',
+                    detail: 'Includes subject, explanation, and context',
+                    value: 'detailed'
+                }
+            ], {
+                placeHolder: 'Select commit message type',
+                title: 'Commit Message Type'
+            });
+
+            if (!commitType) {
+                return; // user cancelled
+            }
+
+            const isDetailed = commitType.value === 'detailed';
+
             await vscode.window.withProgress({
                 location: vscode.ProgressLocation.Notification,
-                title: "Generating commit message...",
+                title: `Generating ${isDetailed ? 'detailed' : 'brief'} commit message...`,
                 cancellable: false
             }, async (progress) => {
                 // Get staged changes
@@ -83,7 +108,7 @@ export function activate(context: vscode.ExtensionContext) {
 
                 // Generate commit message
                 progress.report({ message: 'Generating with AI...' });
-                const commitMessage = await geminiService.generateCommitMessage(gitDiff);
+                const commitMessage = await geminiService.generateCommitMessage(gitDiff, isDetailed);
 
                 outputChannel.appendLine(`[SUCCESS] Generated: ${commitMessage}`);
 
