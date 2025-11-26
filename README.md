@@ -1,15 +1,19 @@
 # Gemini Modular Conventional Commit Writer
 
-AI-powered conventional commit messages using Google Gemini (because it's free! 🎉)
+**Generate conventional commits in seconds!** ⚡
 
-Generate professional, conventional commit messages with a single click using Google's Gemini AI models (Useful for interns)
+AI-powered commit messages using Google Gemini (because it's free! 🎉) - No more struggling with commit message format or wording. Just stage your changes, click generate, and get a perfectly formatted conventional commit instantly.
+
+Professional commit messages with a single click using Google's Gemini AI models.
 
 ## ✨ Features
 
-- 🤖 **AI-Powered Commit Messages**: Generate conventional commits based on your staged changes
+- 🤖 **AI-Powered Commit Messages**: Generate conventional commits based on your staged changes **in seconds**
+- 📝 **Brief or Detailed**: Choose between single-line commits or multi-line with body and footer
 - 💰 **100% Free**: Uses Google Gemini's free tier (no credit card required!)
 - ⚡ **Multiple Models**: Choose from Gemini 2.5 Flash, Flash Lite, 2.0 Flash, or 2.0 Flash Lite
 - 🎯 **Conventional Commits**: Follows the [Conventional Commits](https://www.conventionalcommits.org/) specification
+- 🧩 **Modular**: Automatically generates focused, single-purpose commits based on staged changes
 - 🔒 **Secure**: API keys stored securely in VS Code's Secret Storage
 - ⌨️ **Keyboard Shortcut**: `Ctrl+Alt+G` (Windows/Linux) or `Cmd+Alt+G` (Mac)
 - 🎨 **Git Integration**: Seamlessly integrates with VS Code's Source Control UI
@@ -26,6 +30,8 @@ Search for "Gemini Conventional Commit Writer" in VS Code Extensions marketplace
 2. Click "Get API Key" (no credit card required!)
 3. Copy your API key
 
+> ⚠️ **Privacy Notice:** Google's free tier may use your data for training purposes. If your code contains proprietary information, consider using a paid Gemini API key which offers data protection guarantees. See [Google's data usage policy](https://ai.google.dev/gemini-api/terms) for details.
+
 ### 3. Set Your API Key
 
 **Option 1:** Via Command Palette
@@ -41,8 +47,11 @@ Search for "Gemini Conventional Commit Writer" in VS Code Extensions marketplace
 ### 4. Generate Your First Commit
 
 1. Stage your changes in Git
-2. Click the sparkle icon (✨) in the Source Control title bar
-3. Or use keyboard shortcut: `Ctrl+Alt+G` / `Cmd+Alt+G`
+2. Click the sparkle icon (✨) in the Source Control title bar or use `Ctrl+Alt+G` / `Cmd+Alt+G`
+3. Choose commit style:
+   - **Brief Commit**: Single-line (e.g., `feat(auth): add google oauth`)
+   - **Detailed Commit**: Multi-line with body and footer for context
+4. Commit message appears instantly in the input box!
 
 ## 🎮 Usage
 
@@ -53,6 +62,25 @@ Search for "Gemini Conventional Commit Writer" in VS Code Extensions marketplace
 1. **Button**: Click the sparkle icon (✨) in Source Control toolbar
 2. **Keyboard**: Press `Ctrl+Alt+G` (Windows/Linux) or `Cmd+Alt+G` (Mac)
 3. **Command Palette**: Run "Gemini Commit: Generate Commit Message"
+
+**Then choose your style:**
+- **Brief Commit** - Perfect for quick, straightforward changes
+  ```
+  feat(api): add user authentication endpoint
+  ```
+- **Detailed Commit** - For complex changes that need context
+  ```
+  feat(api): add user authentication endpoint
+  
+  - Implement JWT token generation and validation
+  - Add password hashing with bcrypt
+  - Create user session management
+  
+  This enables secure user authentication and prepares
+  the foundation for role-based access control.
+  
+  Refs: #123
+  ```
 
 ### Manage Settings
 
