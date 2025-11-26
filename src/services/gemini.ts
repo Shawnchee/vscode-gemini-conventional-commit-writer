@@ -8,7 +8,7 @@ export class GeminiGeneratorService {
         this.genAI = new GoogleGenAI({ apiKey: apiKey });
     }
 
-    async generateCommitMessage(diff: string): Promise<string> {
+    async generateCommitMessage(diff: string, detailed: boolean = false): Promise<string> {
         if (!this.genAI) {
             throw new Error('Generative AI service not initialized. Please set the API key.');
         }
@@ -16,52 +16,16 @@ export class GeminiGeneratorService {
         const config = vscode.workspace.getConfiguration('geminiCommitWriter');
         const modelName = config.get<string>('model', 'gemini-2.5-flash');
         const temperature = config.get<number>('temperature', 0.1);
-        const maxOutputTokens = config.get<number>('maxOutputTokens', 300);
+        const maxOutputTokens = config.get<number>('maxOutputTokens', detailed ? 1000 : 300);
         const maxDiffLength = config.get<number>('maxDiffLength', 8000);
         
         const truncatedDiff = diff.length > maxDiffLength 
             ? diff.substring(0, maxDiffLength) + '\n... (truncated)' 
             : diff;
 
-        const prompt = 
-            `Generate a conventional commit message for this git diff.
-
-            REQUIRED FORMAT: <type>(<scope>): <description>
-
-            RULES:
-            - Single line only, no body or footers
-            - Lowercase description, no period at end
-            - Be specific and concise based on actual changes
-
-            TYPES:
-            - feat: New feature
-            - fix: Bug fix
-            - docs: Documentation only
-            - style: Code formatting (no logic change)
-            - refactor: Code restructuring (no behavior change)
-            - perf: Performance improvement
-            - test: Add/update tests
-            - build: Build system/dependencies
-            - ci: CI/CD configuration
-            - chore: Maintenance tasks
-
-            SCOPE: Optional, describes affected area (e.g., api, auth, parser)
-            GIT DIFF:
-            ---
-            ${truncatedDiff}
-            ---
-
-            Generate ONLY the commit message, nothing else.
-            `;
-
+        const prompt = detailed ? this.getDetailedPrompt(truncatedDiff) : this.getBriefPrompt(truncatedDiff);
+            
         try {
-            // const model = this.genAI.getGenerativeModel({
-            //     model: modelName,
-            //     generationConfig: {
-            //         temperature: temperature,
-            //         maxOutputTokens: maxOutputTokens,
-            //     }
-            // });
             const result = await this.genAI.models.generateContent({
                 model: modelName,
                 contents: prompt,
@@ -92,4 +56,94 @@ export class GeminiGeneratorService {
             throw new Error(`❌ AI generation failed: ${error.message || 'Unknown error'}`);
         }
     }
+
+    private getBriefPrompt(diff: string): string {
+        return `Generate a conventional commit message for this git diff.
+
+            REQUIRED FORMAT: <type>(<scope>): <description>
+
+            RULES:
+            - Single line only, no body or footers
+            - Lowercase description, no period at end
+            - Be specific and concise based on actual changes
+
+            TYPES:
+            - feat: New feature
+            - fix: Bug fix
+            - docs: Documentation only
+            - style: Code formatting (no logic change)
+            - refactor: Code restructuring (no behavior change)
+            - perf: Performance improvement
+            - test: Add/update tests
+            - build: Build system/dependencies
+            - ci: CI/CD configuration
+            - chore: Maintenance tasks
+
+            SCOPE: Optional, describes affected area (e.g., api, auth, parser)
+            GIT DIFF:
+            ---
+            ${diff}
+            ---
+
+            Generate ONLY the commit message, nothing else.
+            `;
+    }
+
+    private getDetailedPrompt(diff: string): string {
+        return `Generate a detailed conventional commit message for this git diff.
+
+REQUIRED FORMAT:
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+
+RULES:
+- Subject: Single line, lowercase, no period (max 50 chars)
+- Body: Explain WHAT and WHY (wrap at 72 chars)
+- Footer: Breaking changes or issue references
+
+TYPES:
+- feat: New feature
+- fix: Bug fix
+- docs: Documentation
+- style: Code formatting
+- refactor: Code restructuring
+- perf: Performance improvement
+- test: Tests
+- build: Build system
+- ci: CI/CD
+- chore: Maintenance
+
+BODY GUIDELINES:
+- Explain what changed and why
+- Use bullet points for multiple changes
+- Focus on motivation and context
+
+FOOTER (if applicable):
+- BREAKING CHANGE: describe breaking changes
+- Fixes #123: reference issues
+- Refs: #456: related issues
+EXAMPLE:
+feat(auth): add oauth2 google integration
+
+- Implement OAuth2 flow with Google provider
+- Add user profile fetching and caching
+- Create callback handler for authentication
+
+This enables users to sign in with their Google accounts,
+improving onboarding experience and reducing friction.
+
+Refs: #234
+
+GIT DIFF:
+---
+${diff}
+---
+
+Generate the complete commit message with subject, body, and footer (if applicable).`;
+
+    }
 }
+
