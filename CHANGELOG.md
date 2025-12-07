@@ -2,6 +2,11 @@
 
 All notable changes to the "Gemini Conventional Commit Writer" extension will be documented in this file.
 
+## [1.1.1] - 2025-12-07
+
+### Fix
+- Fixed minor bugs (removed gemini-2.0-flash and gemini-2.0-flash-lite due to deprecation)
+
 ## [1.1.0] - 2025-11-26
 
 ### Added

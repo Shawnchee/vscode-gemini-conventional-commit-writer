@@ -113,8 +113,6 @@ Access settings via `File > Preferences > Settings > Extensions > Gemini Commit 
 |-------|----------|-------|---------|
 | **gemini-2.5-flash** ⚡ | Recommended for most users | Fast | High |
 | **gemini-2.5-flash-lite** 💡 | High-volume usage | Fastest | Good |
-| **gemini-2.0-flash** 🔷 | Complex changes | Fast | High |
-| **gemini-2.0-flash-lite** 💾 | Cost-effective | Fastest | Good |
 
 All models are available on Google's **free tier**!
 
