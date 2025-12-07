@@ -2,7 +2,7 @@
   "name": "vscode-gemini-commit-writer",
   "displayName": "Gemini Conventional Commit Writer",
   "description": "AI-powered conventional commit messages using Google Gemini (cuz it's free)",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "publisher": "shawnchee",
   "icon": "icon.png",
   "engines": {
