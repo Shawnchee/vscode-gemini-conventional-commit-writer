@@ -11,7 +11,7 @@ Professional commit messages with a single click using Google's Gemini AI models
 - 🤖 **AI-Powered Commit Messages**: Generate conventional commits based on your staged changes **in seconds**
 - 📝 **Brief or Detailed**: Choose between single-line commits or multi-line with body and footer
 - 💰 **100% Free**: Uses Google Gemini's free tier (no credit card required!)
-- ⚡ **Multiple Models**: Choose from Gemini 2.5 Flash, Flash Lite, 2.0 Flash, or 2.0 Flash Lite
+- ⚡ **Multiple Models**: Choose from Gemini 2.5 Flash and Flash Lite
 - 🎯 **Conventional Commits**: Follows the [Conventional Commits](https://www.conventionalcommits.org/) specification
 - 🧩 **Modular**: Automatically generates focused, single-purpose commits based on staged changes
 - 🔒 **Secure**: API keys stored securely in VS Code's Secret Storage
