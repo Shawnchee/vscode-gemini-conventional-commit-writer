@@ -109,9 +109,7 @@
           ],
           "enumDescriptions": [
             "⚡ Flash (Recommended) - Hybrid reasoning model with 1M token context window",
-            "💡 Flash Lite - Smallest and most cost-effective for at-scale usage",
-            "🔷 2.0 Flash - Balanced multimodal model with 1M token context, great for agents",
-            "💾 2.0 Flash Lite - Most efficient and cost-effective for high-volume usage"
+            "💡 Flash Lite - Smallest and most cost-effective for at-scale usage"
           ],
           "markdownDescription": "**Select Gemini AI Model**\n\nAll models are available on the **free tier**.\n\n[Learn more about Gemini models](https://ai.google.dev/models/gemini)",
           "order": 1
