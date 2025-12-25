@@ -6,6 +6,8 @@ AI-powered commit messages using Google Gemini (because it's free! 🎉) - No mo
 
 Professional commit messages with a single click using Google's Gemini AI models.
 
+![Demo Video](demo-video.gif)
+
 ## ✨ Features
 
 - 🤖 **AI-Powered Commit Messages**: Generate conventional commits based on your staged changes **in seconds**
